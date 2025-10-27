@@ -1,0 +1,85 @@
+require 'pry'
+
+class Point
+  include Comparable, Enumerable
+  attr_reader :x, :y
+  
+  def initialize(x,y)
+    @x, @y = x, y
+    if defined?(@@number_of_points)
+      @@number_of_points += 1
+    else
+      @@number_of_points = 1
+    end
+  end
+  
+  #metodos de instancia
+  def *(value)
+    Point.new(@x * value, @y * value)
+  end
+  
+  def -@
+    Point.new(-@x, -@y)
+  end
+  
+  def +(other)
+    Point.new(@x + other.x, @y + other.y)
+  end
+  
+  def to_s               #invalidando 
+    "( #{@x}, #{@y} )"
+  end
+  
+  #metodo de clase
+  def self.count
+    @@number_of_points
+  end
+  
+  #constante
+  ORIGIN = Point.new(0,0)
+
+  #definición del operador de acceso 
+  def [] (index)
+    case index
+      when 0, -2 
+        @x
+      when 1, -1
+        @y
+      when :x, "x" 
+        @x
+      when :y, "y" 
+        @y
+      else
+        nil
+    end 
+  end
+  
+  #definición del método del Mixin Comparable
+  def <=>(other)
+    #return nil unless other.instance_of? Point
+    @x**2 + @y**2 <=> other.x**2 + other.y**2
+  end
+  
+  #definición del método del Mixin Enumerable
+  def each
+    yield @x
+    yield @y
+  end
+
+end
+
+p = Point.new(1,2)
+
+# accesos como un vector
+p_x       = p[:x]
+p_0       = p[0]
+p_minus_2 = p[-2]
+
+# invocación de métodos por ese enumerable 
+ej_max     = p.max
+ej_min     = p.min
+ej_include = p.include?1
+ej_collect = p.collect{|i| i*2}
+ej_sort    = p.sort
+
+binding.pry
