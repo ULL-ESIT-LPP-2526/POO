@@ -1,7 +1,7 @@
 require 'pry'
 
 class Point
-  include Comparable, Enumerable
+  include Enumerable                      # 1) incluye el módulo Enumerable 
   attr_reader :x, :y
   
   def initialize(x,y)
@@ -26,7 +26,7 @@ class Point
     Point.new(@x + other.x, @y + other.y)
   end
   
-  def to_s               #invalidando 
+  def to_s #invalidando 
     "( #{@x}, #{@y} )"
   end
   
@@ -37,35 +37,48 @@ class Point
   
   #constante
   ORIGIN = Point.new(0,0)
+  
+  #definición del método del Mixin           # 2) Se implementa el método each       
+  def each 
+    yield @x
+    yield @y 
+  end
 
-  #definición del operador de acceso 
+  #definición del operador de acceso
   def [] (index)
     case index
-      when 0, -2 
+      when 0,-2 
         @x
       when 1, -1
         @y
-      when :x, "x" 
+      when :x, "x"
         @x
-      when :y, "y" 
+      when :y, "y"
         @y
       else
         nil
-    end 
-  end
-  
-  #definición del método del Mixin Comparable
-  def <=>(other)
-    #return nil unless other.instance_of? Point
-    @x**2 + @y**2 <=> other.x**2 + other.y**2
-  end
-  
-  #definición del método del Mixin Enumerable
-  def each
-    yield @x
-    yield @y
+    end
   end
 
+end
+
+# Herencia - reutilización de código
+class Point3D < Point
+  attr_reader :z
+  def initialize(x,y,z)
+    super(x,y)              #encadenamiento (chaining)
+    @z = z
+  end
+  
+  def to_s
+    s = "( "
+    s << super.to_s        #encadenamiento (chaining)
+    s << ", #{@z} )"
+    s
+  end
+  
+  #constante
+  ORIGIN = Point3D.new(0,0,0)
 end
 
 p = Point.new(1,2)

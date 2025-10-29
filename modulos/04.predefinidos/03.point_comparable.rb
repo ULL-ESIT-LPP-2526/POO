@@ -1,7 +1,7 @@
 require 'pry'
 
-class Point 
-  include Comparable
+class Point
+  include Comparable                      # 1) incluye el módulo comparable
   attr_reader :x, :y
   
   def initialize(x,y)
@@ -13,7 +13,7 @@ class Point
     end
   end
   
-  # métodos de instancia
+  #metodos de instancia
   def *(value)
     Point.new(@x * value, @y * value)
   end
@@ -23,14 +23,14 @@ class Point
   end
   
   def +(other)
-     Point.new(@x + other.x, @y + other.y)
+    Point.new(@x + other.x, @y + other.y)
   end
   
-  def to_s                    #invalidando 
+  def to_s #invalidando 
     "( #{@x}, #{@y} )"
   end
   
-  #métodos de clase
+  #metodo de clase
   def self.count
     @@number_of_points
   end
@@ -38,35 +38,49 @@ class Point
   #constante
   ORIGIN = Point.new(0,0)
   
-  #definición del método del Mixin
+  # Definición del método del Mixin           # 2) Se implementa el método <=>       
+  # El operador <=> define un ORDEN entre objetos
+  #
+  #                    -1 si left <  right
+  # left <=> right  ->  0 si left == right
+  #                     1 si left >  right
+  #                     nil si no se pueden comparar
   def <=> (other)
     @x**2 + @y**2 <=> other.x**2 + other.y**2
   end
-  
+   
+  #redefinir el operador == para distinguir los puntos con igual distancia al origen
+  def == (other)
+    x == other.x && y == other.y
+  end
+
 end
 
-#Herencia
+# Herencia - reutilización de código
 class Point3D < Point
   attr_reader :z
   def initialize(x,y,z)
-    super(x,y)
+    super(x,y)              #encadenamiento (chaining)
     @z = z
   end
-
-  def to_s                  #invalidando 
-    "(#{@x}, #{@y}, #{@z})"
+  
+  def to_s
+    s = "( "
+    s << super.to_s        #encadenamiento (chaining)
+    s << ", #{@z} )"
+    s
   end
   
   #constante
   ORIGIN = Point3D.new(0,0,0)
 end
 
-
 # Búsqueda de nombres de métodos cuando se incluyen mixin
 
 p0 = Point::ORIGIN
 p1 = Point.new(1,1)
 p2 = Point.new(2,2)
+pn = Point.new(-1,1)
 
 p03d = Point3D::ORIGIN
 p13d = Point3D.new(1,1,1)
