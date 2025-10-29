@@ -11,3 +11,6 @@
   * Point 3D 
   * Métodos de acceso (Encapsulamiento)
 
+## Módulos
+  * Módulos (namespaces, mixins)
+  * Mixins estándar (include, Comparable, <=>, Enumerable, each)
