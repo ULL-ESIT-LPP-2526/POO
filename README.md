@@ -14,3 +14,10 @@
 ## Módulos
   * Módulos (namespaces, mixins)
   * Mixins estándar (include, Comparable, <=>, Enumerable, each)
+
+## Polimorfismo
+  * Definición de polimorfismo - Diferencia entre clase y tipo.
+  * La clase de un objeto (class, instance_of?, is_a?).
+  * El tipo de un objeto (respond_to?).
+  * Conversiones: explícitas (to_s), implícitas (coerce)
+  * Clases mutables (Struct)
