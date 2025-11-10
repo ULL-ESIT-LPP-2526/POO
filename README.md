@@ -21,3 +21,6 @@
   * El tipo de un objeto (respond_to?).
   * Conversiones: explícitas (to_s), implícitas (coerce)
   * Clases mutables (Struct)
+
+## Búsqueda de constantes
+  * Ejemplo con definiciones de constantes a distintos niveles
